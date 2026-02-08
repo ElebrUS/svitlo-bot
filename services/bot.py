@@ -1,12 +1,11 @@
 import requests
 from urllib.parse import urljoin
-import os
-
 
 class BotService:
-    def __init__(self, token: str, chat_id: str):
+    def __init__(self, token: str, chat_id: str, template_dir: str):
         self.token = token
         self.chat_id = chat_id
+        self.template_dir = template_dir
         self.base_url = f"https://api.telegram.org/bot{self.token}/"
 
     def _build_url(self, method: str) -> str:
@@ -31,12 +30,12 @@ class BotService:
     @classmethod
     def from_settings(cls):
         from conf import settings
-        return cls(settings.BOT_TOKEN, settings.CHANNEL_CHAT_ID)
+        return cls(settings.BOT_TOKEN, settings.CHANNEL_CHAT_ID, settings.TEMPLATE_DIR)
 
     def render_template(self, template_name: str, **kwargs) -> str:
-        file_path = f"templates/{template_name}.tpl"
+        file_path = self.template_dir / f"{template_name}.tpl"
 
-        if not os.path.exists(file_path):
+        if not file_path.exists():
             return f"Error: Template {template_name} not found."
 
         with open(file_path, 'r', encoding='utf-8') as f:

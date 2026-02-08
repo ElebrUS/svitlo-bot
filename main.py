@@ -1,12 +1,11 @@
-from dotenv import load_dotenv
+from conf.settings import STORAGE_FILE
 from services import RouterService, BotService, Storage, MonitorService
 
 
 def main():
-    load_dotenv()
     router = RouterService.from_settings()
     bot = BotService.from_settings()
-    storage = Storage()
+    storage = Storage(STORAGE_FILE)
 
     monitor = MonitorService(router, bot, storage, n_limit=3)
     monitor.run_check()
