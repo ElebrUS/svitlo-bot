@@ -1,0 +1,24 @@
+# General
+.DS_Store
+.AppleDouble
+.LSOverride
+
+# Byte-compiled / optimized / DLL files
+.idea/
+__pycache__/
+*.py[cod]
+*$py.class
+poetry.lock
+
+
+# PEP 582; used by e.g. github.com/David-OConnor/pyflow
+__pypackages__/
+
+# Environments
+.env
+.venv
+env/
+venv/
+ENV/
+env.bak/
+venv.bak/

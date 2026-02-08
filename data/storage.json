@@ -1,0 +1,11 @@
+{
+    "current_state": "enabled",
+    "counter": 3,
+    "shutdown": [
+        {
+            "date": "2026-02-08",
+            "dt_check": "2026-02-08T06:10:00.407643",
+            "state": "enabled"
+        }
+    ]
+}
