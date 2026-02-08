@@ -15,9 +15,9 @@ A Python bot that monitors electricity availability by checking connected device
 
 - Python 3.13+
 - Poetry for dependency management
-- Access to router with API support
+- Access to router with API support (tested with Keenetic routers)
 - Telegram Bot Token
-- Compatible router (tested with Keenetic routers)
+- Router admin credentials
 
 ## Installation
 
@@ -48,8 +48,9 @@ cp .env.example .env
 
 ```env
 # Router configuration
-ROUTER_TOKEN=your_router_token_here
 ROUTER_URL=http://192.168.0.1/cgi-bin/
+ROUTER_USERNAME=admin
+ROUTER_PASSWORD=your_router_password
 DEVICES_LIST=device_name_or_mac_address
 
 # Telegram bot configuration
@@ -57,13 +58,19 @@ BOT_TOKEN=your_telegram_bot_token
 CHANNEL_CHAT_ID=your_channel_chat_id
 ```
 
-### Getting Router Token
+### Router Authentication
 
-For Keenetic routers:
-1. Log in to your router's web interface
-2. Navigate to System → Scripts
-3. Create a new script and note the token shown in the browser URL
-4. The token format is typically `HASHSUM#...`
+The bot now uses username/password authentication to automatically obtain a router token:
+
+1. Set your router credentials in `.env`:
+   - `ROUTER_USERNAME`: Your router admin username (default: admin)
+   - `ROUTER_PASSWORD`: Your router admin password
+
+2. The bot will automatically:
+   - Hash the credentials using MD5
+   - Authenticate with the router
+   - Obtain and cache the session token
+   - Use the token for subsequent API calls
 
 ### Getting Telegram Bot Token
 
@@ -106,7 +113,8 @@ SvitloBot/
 ## Services Overview
 
 ### RouterService
-- Connects to router API
+- Connects to router API using username/password authentication
+- Automatically obtains and caches session tokens
 - Retrieves list of connected devices
 - Filters devices based on configuration
 
